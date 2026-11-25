@@ -1,0 +1,6 @@
+{
+  "name": "Rumie Ear Training",
+  "description": "Entrena tu Oído Musical — Videojuego educativo de progresión musical por etapas de Rumie Music Tools. Aprende, Comprende y Crea Música.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

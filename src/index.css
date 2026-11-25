@@ -1,0 +1,628 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-rumie-bg: #090B11;
+  --color-rumie-card: #14151D;
+  --color-rumie-panel: #1C1D29;
+  --color-rumie-orange: #FF5A00;
+  --color-rumie-orange-hover: #FF6E1F;
+  --color-rumie-orange-active: #E04E00;
+  --color-rumie-cyan: #00E5FF;
+  --color-rumie-gold: #FFB800;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100dvh;
+    max-height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: #090B11;
+    color: #FFFFFF;
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Perspective dark gamer grid atmosphere */
+.arcade-grid-bg {
+  background-color: #090B11;
+  background-image:
+    radial-gradient(ellipse 65% 55% at 20% 20%, rgba(255, 90, 0, 0.14), transparent 65%),
+    radial-gradient(ellipse 55% 50% at 85% 75%, rgba(0, 229, 255, 0.11), transparent 65%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+}
+
+.arcade-perspective-floor {
+  background-image:
+    linear-gradient(to right, rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 90, 0, 0.08) 1px, transparent 1px);
+  background-size: 48px 34px;
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: bottom center;
+}
+
+/* Clean Single-Piece Modern Rumie Buttons */
+.arcade-btn-orange {
+  background: linear-gradient(135deg, #FF6B1A 0%, #FF5A00 65%, #E64E00 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 14px rgba(255, 90, 0, 0.25);
+  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+}
+.arcade-btn-orange:hover:not(:disabled) {
+  filter: brightness(1.07);
+  box-shadow: 0 6px 18px rgba(255, 90, 0, 0.32);
+}
+.arcade-btn-orange:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.arcade-btn-dark {
+  background: linear-gradient(135deg, #212436 0%, #171926 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  transition: transform 140ms ease, filter 140ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+.arcade-btn-dark:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.arcade-btn-dark:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.arcade-btn-gold {
+  background: linear-gradient(135deg, #FFB800 0%, #F59E0B 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 14px rgba(255, 184, 0, 0.22);
+  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+}
+.arcade-btn-gold:hover:not(:disabled) {
+  filter: brightness(1.07);
+  box-shadow: 0 6px 18px rgba(255, 184, 0, 0.3);
+}
+.arcade-btn-gold:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+/* Clean Luminous Map Nodes */
+.node-3d-active {
+  box-shadow: 0 8px 24px rgba(255, 90, 0, 0.45);
+  transition: transform 140ms ease, filter 140ms ease;
+}
+.node-3d-active:hover {
+  filter: brightness(1.06);
+}
+.node-3d-active:active {
+  transform: scale(0.96);
+}
+
+.node-3d-completed {
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+  transition: transform 140ms ease, filter 140ms ease;
+}
+.node-3d-completed:hover {
+  filter: brightness(1.06);
+}
+.node-3d-completed:active {
+  transform: scale(0.96);
+}
+
+.node-3d-locked {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.42);
+  transition: transform 140ms ease, filter 140ms ease;
+}
+.node-3d-locked:active {
+  transform: scale(0.97);
+}
+
+.node-3d-boss {
+  clip-path: polygon(25% 4%, 75% 4%, 98% 50%, 75% 96%, 25% 96%, 2% 50%);
+}
+
+/* Animations (compositor-friendly) */
+@keyframes gentleNodeFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes audioRing {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.48);
+    opacity: 0;
+  }
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+@keyframes eqBounce {
+  0%, 100% {
+    transform: scaleY(0.24);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1) rotate(-2deg);
+  }
+  50% {
+    transform: scale(1.12) rotate(3deg);
+  }
+}
+
+@keyframes comboPop {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.4;
+  }
+  65% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-node-float {
+  animation: gentleNodeFloat 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.animate-audio-ring {
+  animation: audioRing 1.35s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-dash-flow {
+  animation: dashFlow 1.4s linear infinite;
+}
+
+.animate-flame {
+  animation: flameFlicker 1.8s ease-in-out infinite;
+}
+
+.animate-combo-pop {
+  animation: comboPop 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.eq-bar-active {
+  animation: eqBounce 0.55s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Rumie Musician Character Animations */
+@keyframes charBreathe {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes charBagSway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-2.5deg);
+  }
+}
+
+@keyframes charWalkBody {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1.5deg);
+  }
+}
+
+@keyframes charLegLeft {
+  0%, 100% {
+    transform: rotate(-18deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(18deg) translateY(-2px);
+  }
+}
+
+@keyframes charLegRight {
+  0%, 100% {
+    transform: rotate(18deg) translateY(-2px);
+  }
+  50% {
+    transform: rotate(-18deg) translateY(0px);
+  }
+}
+
+@keyframes charCelebrate {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  40% {
+    transform: translateY(-11px) scale(1.04);
+  }
+  70% {
+    transform: translateY(-2px) scale(0.98);
+  }
+}
+
+@keyframes charBlink {
+  0%, 92%, 100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes charNoteFloat {
+  0% {
+    transform: translate(0px, 4px) scale(0.7);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(8px, -18px) scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes charArrive {
+  0% {
+    transform: translateY(-14px) scale(0.72);
+    opacity: 0;
+  }
+  70% {
+    transform: translateY(2px) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.char-breathe {
+  animation: charBreathe 2.6s ease-in-out infinite;
+}
+
+.char-bag-sway {
+  transform-origin: 62px 72px;
+  animation: charBagSway 2.6s ease-in-out infinite;
+}
+
+.char-walk-body {
+  transform-origin: 60px 90px;
+  animation: charWalkBody 0.34s ease-in-out infinite;
+}
+
+.char-leg-l {
+  transform-origin: 50px 98px;
+  animation: charLegLeft 0.34s ease-in-out infinite;
+}
+
+.char-leg-r {
+  transform-origin: 70px 98px;
+  animation: charLegRight 0.34s ease-in-out infinite;
+}
+
+.char-celebrate {
+  transform-origin: 60px 124px;
+  animation: charCelebrate 0.62s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.char-blink {
+  transform-origin: 60px 48px;
+  animation: charBlink 4.2s ease-in-out infinite;
+}
+
+.char-note-1 {
+  animation: charNoteFloat 2.8s ease-out infinite;
+}
+
+.char-note-2 {
+  animation: charNoteFloat 2.8s ease-out 1.4s infinite;
+}
+
+.char-arrive {
+  animation: charArrive 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes stageZoomIn {
+  0% {
+    transform: scale(0.965);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.stage-zoom-in {
+  animation: stageZoomIn 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes stringVibrate {
+  0% {
+    transform: translateY(0px);
+  }
+  15% {
+    transform: translateY(-1.4px);
+  }
+  32% {
+    transform: translateY(1.3px);
+  }
+  50% {
+    transform: translateY(-0.9px);
+  }
+  68% {
+    transform: translateY(0.7px);
+  }
+  85% {
+    transform: translateY(-0.35px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.guitar-string-vibrate {
+  animation: stringVibrate 340ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Galactic 8-World Atlas Animations */
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes cosmicDrift {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0px);
+  }
+  50% {
+    transform: translate3d(14px, -7px, 0px);
+  }
+}
+
+@keyframes cosmicDriftReverse {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0px);
+  }
+  50% {
+    transform: translate3d(-12px, 8px, 0px);
+  }
+}
+
+@keyframes cosmicSymbolFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(1.5deg);
+  }
+}
+
+@keyframes trailSparkPulse {
+  0%, 100% {
+    opacity: 0.38;
+    transform: scale(0.82);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+.star-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: starTwinkle var(--twinkle-dur, 3.8s) ease-in-out var(--twinkle-delay, 0s) infinite;
+}
+
+.cosmic-drift {
+  animation: cosmicDrift 18s ease-in-out infinite;
+}
+
+.cosmic-drift-reverse {
+  animation: cosmicDriftReverse 22s ease-in-out infinite;
+}
+
+.cosmic-symbol-float {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cosmicSymbolFloat 9.5s ease-in-out infinite;
+}
+
+.trail-spark-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: trailSparkPulse var(--spark-dur, 2.8s) ease-in-out var(--spark-delay, 0s) infinite;
+}
+
+/* Per-World Stage Backdrop Slow Ambient Animations */
+@keyframes worldBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes worldSlowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes worldSlowSpinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes worldPulseSoft {
+  0%, 100% {
+    opacity: 0.72;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.035);
+  }
+}
+
+@keyframes worldFloatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes worldDustRise {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(-22px);
+    opacity: 0;
+  }
+}
+
+.world-backdrop-fade {
+  animation: worldBackdropFadeIn 350ms ease forwards;
+}
+
+.world-slow-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: worldSlowSpin 75s linear infinite;
+}
+
+.world-slow-spin-reverse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: worldSlowSpinReverse 95s linear infinite;
+}
+
+.world-pulse-soft {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: worldPulseSoft 6.5s ease-in-out infinite;
+}
+
+.world-float-slow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: worldFloatSlow 8.5s ease-in-out infinite;
+}
+
+.world-dust-rise {
+  animation: worldDustRise 5.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-node-float,
+  .animate-audio-ring,
+  .animate-dash-flow,
+  .animate-flame,
+  .animate-combo-pop,
+  .eq-bar-active,
+  .char-breathe,
+  .char-bag-sway,
+  .char-walk-body,
+  .char-leg-l,
+  .char-leg-r,
+  .char-celebrate,
+  .char-blink,
+  .char-note-1,
+  .char-note-2,
+  .char-arrive,
+  .stage-zoom-in,
+  .guitar-string-vibrate,
+  .star-twinkle,
+  .cosmic-drift,
+  .cosmic-drift-reverse,
+  .cosmic-symbol-float,
+  .trail-spark-pulse,
+  .world-backdrop-fade,
+  .world-slow-spin,
+  .world-slow-spin-reverse,
+  .world-pulse-soft,
+  .world-float-slow,
+  .world-dust-rise {
+    animation: none;
+  }
+}
+
+/* Hide scrollbars on horizontal world strip */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
